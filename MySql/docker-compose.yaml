@@ -1,0 +1,14 @@
+services:
+  mysql:
+    image: mysql:5.7-alpine
+    containerName: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "passwd"
+      MYSQL_DATABASE: "DB"
+      MYSQL_USER: "user"
+      MYSQL_PASSWORD: "passwd"
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data:/var/lib/mysql
+    restart: always

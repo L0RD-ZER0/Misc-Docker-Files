@@ -1,0 +1,6 @@
+#Git-Ignore for MongoDB
+Mongo/data/
+
+#Git-Ignore for MySQL
+MySQL/data/
+
