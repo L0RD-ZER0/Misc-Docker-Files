@@ -1,0 +1,19 @@
+services:
+  podrum-server:
+    build: 
+      context: ./
+      dockerfile: Dockerfile
+    working_dir: /usr/src/Podrum
+    # entrypoint: sleep 1000
+    # entrypoint: ["/bin/sh", "-c", "./start.sh"]
+    # command: cat ./start.sh
+    # command: command
+    ports:
+      - "19132:19132/tcp"
+      - "19132:19132/udp"
+    # environment:
+    #   - PORT=19132
+    volumes:
+      - ./logs/:/usr/logs/:rw
+      # - ./R3/:/usr/src/Podrum/:rw
+      # - ./data/podrum-server:/data
