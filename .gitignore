@@ -1,6 +1,8 @@
-#Git-Ignore for MongoDB
+# Git-Ignore for MongoDB
 Mongo/data/
 
-#Git-Ignore for MySQL
+# Git-Ignore for MySQL
 MySQL/data/
 
+# Git-Ignore for Rustlings
+Rustlings/rustlings/

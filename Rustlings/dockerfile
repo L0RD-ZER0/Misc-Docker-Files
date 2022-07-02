@@ -1,0 +1,33 @@
+# FROM rust:alpine
+FROM rust:latest AS Compile-Stage
+
+VOLUME [ "/usr/src/rustlings" ]
+
+WORKDIR /usr/src/
+
+# Update packages
+# RUN apk -U upgrade
+# RUN apt-get update
+
+# Install GIT, cURL, Python3 and Bash
+# RUN apk add --no-cache git curl python3 bash
+# RUN apt-get install -y git curl python3 bash
+
+# Update packages and install GIT, cURL, Python3 and Bash
+RUN apt-get update && apt-get install -y git curl python3 bash && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Generate binary
+RUN  curl -L https://raw.githubusercontent.com/rust-lang/rustlings/main/install.sh | bash -s /usr/src/rustlings; exit 0
+
+# Copying entrypoint
+COPY ./start.sh ./start.sh
+
+
+# Build from scratch to save layer size increases due to apt updates
+# FROM scratch
+
+# COPY --from=Compile-Stage / /
+
+# WORKDIR /usr/src
+
+ENTRYPOINT [ "/bin/bash", "start.sh" ]

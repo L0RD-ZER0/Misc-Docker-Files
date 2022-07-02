@@ -1,0 +1,12 @@
+services:
+  rustlings:
+    build: 
+      context: ./
+      dockerfile: Dockerfile
+    stdin_open: true
+    tty: true
+    working_dir: /usr/src/
+    entrypoint: ["/bin/bash", "./start.sh"]
+    # entrypoint: sleep 1000
+    volumes:
+      - ./rustlings:/usr/src/rustlings:rw
