@@ -9,3 +9,6 @@ Rustlings/rustlings/
 
 # Git-Ignore for Postgres
 Postgres/data/
+
+# Git-Ignore for Redis
+Redis/data/
