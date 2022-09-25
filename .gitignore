@@ -6,3 +6,6 @@ MySQL/data/
 
 # Git-Ignore for Rustlings
 Rustlings/rustlings/
+
+# Git-Ignore for Postgres
+Postgres/data/
