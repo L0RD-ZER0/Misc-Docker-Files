@@ -1,0 +1,52 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql:latest  # No alpine for this
+    environment:
+      MYSQL_ROOT_PASSWORD: <ROOT-PASSWORD>
+      MYSQL_USER: <USER>
+      MYSQL_PASSWORD: <PASSWORD>
+      MYSQL_DATABASE: <DATABASE>
+    volumes:
+      - ./mysql:/var/lib/mysql
+    networks:
+      - db
+    restart: always
+  php-fpm:
+    # image: bitnami/php-fpm:latest  ->  Non-Docker Third Party
+    # image: php:fpm-alpine  ->  Needs mysql connection packages
+    build:
+      context: .
+      dockerfile: FPM.Dockerfile
+    # depends_on:
+    #   - mysql  # Want this if you really want to ensure it starts only if MySQL works
+    networks:
+      - fpm
+      - db
+    restart: always
+    volumes:
+      # 
+      - ./fpm-app:/usr/share/nginx/html
+  nginx:
+    image: nginx:alpine
+    depends_on:
+      - php-fpm
+    networks:
+      - fpm
+    restart: always
+    volumes:
+      - ./nginx-conf:/etc/nginx/conf.d/:ro
+      - ./fpm-app:/usr/share/nginx/html
+      - ./ng-log:/var/log/nginx
+      # Certificate for SSL
+      - /etc/letsencrypt/live/<your.site>/fullchain.pem:/etc/ssl/certs/fpm-app-cert.pem:ro
+      # Private Key for SSL
+      - /etc/letsencrypt/live/<your.site>/privkey.pem:/etc/ssl/private/fpm-app-key.pem:ro
+    ports:
+      - "80:80"  # http
+      - "443:443"  # https
+networks:
+  fpm:  # NGINX <-> PHP-FPM
+  db:  # PHP-FPM <-> MySQL
+
+
